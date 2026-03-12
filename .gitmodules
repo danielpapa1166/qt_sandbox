@@ -1,0 +1,3 @@
+[submodule "bkk_api"]
+	path = bkk_api
+	url = git@github.com:danielpapa1166/bkk_api.git
