@@ -1,74 +1,80 @@
 # qt_sandbox
 A basic Qt Hello World application **to learn and practice** the fundamentals of Qt GUI development.
+Qt Widgets app (`hello_world` -> to be renamed) that integrates the `bkk_api` C++ library as part of a single CMake build.
 
-## Project Structure
+## Requirements (Linux)
 
-- `main.cpp` - Main application source code with a simple window and label
-- `CMakeLists.txt` - Build configuration using CMake
+- Ubuntu/Debian-based Linux
+- CMake 3.16+
+- GCC/G++ with C++17 support
+- Qt development package (Qt5 or Qt6 Widgets)
+- libcurl development package
 
-## Prerequisites
+Install dependencies on Ubuntu/Debian:
 
-Before building, ensure you have:
-
-- **Qt6** installed (or Qt5, with minor adjustments to CMakeLists.txt)
-- **CMake** 3.16 or higher
-- A C++ compiler (gcc, clang, or MSVC)
-
-### Installing Qt
-
-**Ubuntu/Debian:**
 ```bash
-sudo apt-get install qt6-base-dev
+sudo apt update
+sudo apt install -y build-essential cmake qtbase5-dev libcurl4-openssl-dev
 ```
 
-**macOS (using Homebrew):**
+## Repository Setup
+
+This repo uses `bkk_api` as a submodule.
+
+If cloning fresh:
+
 ```bash
-brew install qt@6
+git clone --recurse-submodules <your-repo-url>
+cd qt_sandbox
 ```
 
-**Windows:**
-Download and install from https://www.qt.io/download-open-source
+If already cloned:
 
-## Building
-
-1. Create a build directory:
 ```bash
-mkdir build && cd build
+git submodule update --init --recursive
 ```
 
-2. Configure with CMake:
+## Build (Top-Level CMake)
+
+From repository root:
+
 ```bash
-cmake ..
+cmake -S . -B cmake-build
+cmake --build cmake-build -j
 ```
 
-3. Build the project:
+This builds both:
+
+- `bkk_api_shared` from `bkk_api/cpp`
+- `hello_world` from the root project
+
+## Run
+
+Always run the binary from the CMake build directory:
+
 ```bash
-cmake --build .
+./cmake-build/hello_world
 ```
 
-## Running
+## Rebuild After Code Changes
 
-From the build directory, run:
+For normal rebuilds:
+
 ```bash
-./hello_world
+cmake --build cmake-build -j
 ```
 
-On macOS, you may need:
+If you changed any `CMakeLists.txt` file, reconfigure first:
+
 ```bash
-./hello_world
+cmake -S . -B cmake-build
+cmake --build cmake-build -j
 ```
 
-On Windows (MSVC):
+For a full clean rebuild:
+
 ```bash
-./hello_world.exe
+rm -rf cmake-build
+cmake -S . -B cmake-build
+cmake --build cmake-build -j
 ```
-
-## What's in the Code
-
-- **QApplication** - Manages the application's control flow and GUI settings
-- **QMainWindow** - The main application window
-- **QWidget** - The central widget that contains child widgets
-- **QVBoxLayout** - Arranges widgets vertically
-- **QLabel** - Displays the "Hello World!" text
-
-This example demonstrates the basic pattern of creating a Qt GUI application with a window, layout, and widget.
