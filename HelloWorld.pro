@@ -28,7 +28,9 @@ unix {
 
 # Add CMake build step for bkk_api before building this app
 bkk_api_build.target = $$BKK_API_LIB
-bkk_api_build.commands = cd $$PWD/$$BKK_API_PATH && cmake -B . && make
+
+# turn on or off verbose console log: 
+bkk_api_build.commands = cd $$PWD/$$BKK_API_PATH && cmake -B . -DBKK_API_VERBOSE_ON=OFF && make
 
 PRE_TARGETDEPS += $$BKK_API_LIB
 QMAKE_EXTRA_TARGETS += bkk_api_build  
